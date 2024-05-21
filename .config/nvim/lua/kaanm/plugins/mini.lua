@@ -16,10 +16,39 @@ return {
 		require("mini.ai").setup()
 		require("mini.bracketed").setup()
 		require("mini.splitjoin").setup()
+		require("mini.diff").setup()
 
 		local keymap = vim.keymap -- for conciseness
-		keymap.set("n", "<leader>ee", "<cmd>lua MiniFiles.open()<CR>", { desc = "Toggle file explorer" }) -- toggle file explorer
-		keymap.set("n", "<leader>ef", "<cmd>lua MiniFiles.refresh()<CR>", { desc = "Refresh file explorer" }) -- refresh file explorer
+		keymap.set("n", "<leader>ee", function()
+			require("mini.files").open()
+		end, { desc = "Toggle file explorer" }) -- toggle file explorer
+
+		keymap.set("n", "<leader>ef", function()
+			require("mini.files").refresh()
+		end, { desc = "Refresh file explorer" }) -- refresh file explorer
+
+		keymap.set("n", "<leader>tgo", function()
+			require("mini.diff").toggle_overlay(0)
+		end, { desc = "Toggle diff overlay" })
+
+		keymap.set("n", "<leader>bd", function()
+			local bd = require("mini.bufremove").delete
+			if vim.bo.modified then
+				local choice = vim.fn.confirm(("Save changes to %q?"):format(vim.fn.bufname()), "&Yes\n&No\n&Cancel")
+				if choice == 1 then -- Yes
+					vim.cmd.write()
+					bd(0)
+				elseif choice == 2 then -- No
+					bd(0, true)
+				end
+			else
+				bd(0)
+			end
+		end, { desc = "Kill buffer" })
+
+		keymap.set("n", "<leader>bD", function()
+			require("mini.bufremove").delete(0, true)
+		end, { desc = "Force kill buffer" })
 
 		local map_split = function(buf_id, lhs, direction)
 			local rhs = function()
