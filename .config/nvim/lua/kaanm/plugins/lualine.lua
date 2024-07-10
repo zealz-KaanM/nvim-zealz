@@ -16,36 +16,48 @@ return {
       inactive_bg = "#2c3043",
     }
 
+    local configuration = vim.fn['everforest#get_configuration']()
+    local palette = vim.fn['everforest#get_palette'](configuration.background, configuration.colors_override)
+
+    if configuration.transparent_background == 2 then
+      palette.bg1 = palette.none
+    end
+
     local my_lualine_theme = {
       normal = {
-        a = { bg = colors.blue, fg = colors.bg, gui = "bold" },
-        b = { bg = colors.bg, fg = colors.fg },
-        c = { bg = colors.bg, fg = colors.fg },
+        a = {bg = palette.statusline1[1], fg = palette.bg0[1], gui = 'bold'},
+        b = {bg = palette.bg3[1], fg = palette.grey2[1]},
+        c = {bg = palette.bg1[1], fg = palette.grey1[1]}
       },
       insert = {
-        a = { bg = colors.green, fg = colors.bg, gui = "bold" },
-        b = { bg = colors.bg, fg = colors.fg },
-        c = { bg = colors.bg, fg = colors.fg },
+        a = {bg = palette.statusline2[1], fg = palette.bg0[1], gui = 'bold'},
+        b = {bg = palette.bg3[1], fg = palette.fg[1]},
+        c = {bg = palette.bg1[1], fg = palette.fg[1]}
       },
       visual = {
-        a = { bg = colors.violet, fg = colors.bg, gui = "bold" },
-        b = { bg = colors.bg, fg = colors.fg },
-        c = { bg = colors.bg, fg = colors.fg },
-      },
-      command = {
-        a = { bg = colors.yellow, fg = colors.bg, gui = "bold" },
-        b = { bg = colors.bg, fg = colors.fg },
-        c = { bg = colors.bg, fg = colors.fg },
+        a = {bg = palette.statusline3[1], fg = palette.bg0[1], gui = 'bold'},
+        b = {bg = palette.bg3[1], fg = palette.fg[1]},
+        c = {bg = palette.bg1[1], fg = palette.fg[1]}
       },
       replace = {
-        a = { bg = colors.red, fg = colors.bg, gui = "bold" },
-        b = { bg = colors.bg, fg = colors.fg },
-        c = { bg = colors.bg, fg = colors.fg },
+        a = {bg = palette.orange[1], fg = palette.bg0[1], gui = 'bold'},
+        b = {bg = palette.bg3[1], fg = palette.fg[1]},
+        c = {bg = palette.bg1[1], fg = palette.fg[1]}
+      },
+      command = {
+        a = {bg = palette.aqua[1], fg = palette.bg0[1], gui = 'bold'},
+        b = {bg = palette.bg3[1], fg = palette.fg[1]},
+        c = {bg = palette.bg1[1], fg = palette.fg[1]}
+      },
+      terminal = {
+        a = {bg = palette.purple[1], fg = palette.bg0[1], gui = 'bold'},
+        b = {bg = palette.bg3[1], fg = palette.fg[1]},
+        c = {bg = palette.bg1[1], fg = palette.fg[1]}
       },
       inactive = {
-        a = { bg = colors.inactive_bg, fg = colors.semilightgray, gui = "bold" },
-        b = { bg = colors.inactive_bg, fg = colors.semilightgray },
-        c = { bg = colors.inactive_bg, fg = colors.semilightgray },
+        a = {bg = palette.bg1[1], fg = palette.grey1[1]},
+        b = {bg = palette.bg1[1], fg = palette.grey1[1]},
+        c = {bg = palette.bg1[1], fg = palette.grey1[1]}
       },
     }
 
